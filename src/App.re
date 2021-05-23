@@ -1,5 +1,3 @@
-[@bs.config {jsx: 3}];
-
 include CssReset;
 
 type state = {
@@ -29,53 +27,55 @@ module Styles = {
 
 [@react.component]
 let make = _ => {
-  let (state, send) =
-    ReactUpdate.useReducer(
-      {beerList: NotAsked, beers: Belt.Map.String.empty}, (action, state) =>
-      switch (action) {
-      | LoadBeerList =>
-        UpdateWithSideEffects(
-          {...state, beerList: Loading},
-          ({send}) =>
-            BeerList.query()
-            ->Future.get(payload => send(ReceiveBeerList(payload))),
-        )
-      | ReceiveBeerList(beerList) =>
-        Update({...state, beerList: Done(beerList)})
-      | LoadBeerDetail(id) =>
-        UpdateWithSideEffects(
-          {...state, beers: state.beers->Belt.Map.String.set(id, Loading)},
-          ({send}) =>
-            BeerDetail.query(~id)
-            ->Future.get(payload => send(ReceiveBeerDetail(id, payload))),
-        )
-      | ReceiveBeerDetail(id, payload) =>
-        Update({
-          ...state,
-          beers:
-            state.beers
-            ->Belt.Map.String.set(
-                id,
-                Done(payload->Belt.Result.map(ok => (Js.Date.now(), ok))),
-              ),
-        })
-      }
+  let (state, dispatch) =
+    React.useReducer(
+      (state, action) =>
+        switch (action) {
+        | LoadBeerList => {...state, beerList: Loading}
+        | ReceiveBeerList(beerList) => {...state, beerList: Done(beerList)}
+        | LoadBeerDetail(id) => {
+            ...state,
+            beers: state.beers->Belt.Map.String.set(id, Loading),
+          }
+        | ReceiveBeerDetail(id, payload) => {
+            ...state,
+            beers:
+              state.beers
+              ->Belt.Map.String.set(
+                  id,
+                  Done(payload->Belt.Result.map(ok => (Js.Date.now(), ok))),
+                ),
+          }
+        },
+      {beerList: NotAsked, beers: Belt.Map.String.empty},
     );
   let url = ReasonReactRouter.useUrl();
+  let loadBeerDetail = id => {
+    BeerDetail.query(~id)
+    ->Future.get(payload => dispatch(ReceiveBeerDetail(id, payload)));
+  };
+  let loadBeerList = () => {
+    BeerList.query()
+    ->Future.get(payload => dispatch(ReceiveBeerList(payload)));
+  };
+  React.useEffect0(() => {
+    loadBeerList();
+    None;
+  });
   <>
     <Header />
     <div className=Styles.contents>
       {switch (url.path) {
        | [] =>
          <BeerListPage
-           onLoadRequest={() => send(LoadBeerList)}
+           onLoadRequest={() => loadBeerList()}
            beerList={state.beerList}
          />
        | ["beers", id] =>
          <BeerDetailPage
            onLoadRequest={() => {
              Js.log("load beer detail");
-             send(LoadBeerDetail(id));
+             loadBeerDetail(id);
            }}
            beer={
              state.beers

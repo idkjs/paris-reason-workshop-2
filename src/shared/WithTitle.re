@@ -1,5 +1,3 @@
-[@bs.config {jsx: 3}];
-
 let suffix = title =>
   title == "Putain de code" ? title : title ++ " | Putain de code";
 

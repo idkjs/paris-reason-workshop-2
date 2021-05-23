@@ -11,6 +11,6 @@ let fromJs = jsBeer => {
 };
 
 let query = () => {
-  Request.make(~url=Environment.apiUrl ++ "/beers", ())
-  ->Future.mapOk(items => items->Belt.Array.map(fromJs));
+  Request.make(~url=Environment.apiUrl ++ "beers", ())
+  ->Future.mapOk(items => {items->Belt.Array.map(fromJs)});
 };

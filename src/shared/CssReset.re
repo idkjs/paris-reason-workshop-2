@@ -5,7 +5,7 @@ Css.(
       padding(zero),
       margin(zero),
       backgroundColor("fff"->hex),
-      Theme.defaultTextFontFamily->fontFamily,
+      `custom(Theme.defaultTextFontFamily)->fontFamily,
       display(flexBox),
       flexDirection(column),
       minHeight(100.->vh),
@@ -33,8 +33,8 @@ Css.(
       color(Theme.darkBody->hex),
       fontSize(1.->em),
       lineHeight(`abs(1.4)),
-      `declaration(("WebkitFontSmoothing", "antialiased")),
-      `declaration(("WebkitTextSizeAdjust", "100%")),
+      //   (`declaration("WebkitFontSmoothing", "antialiased")),
+      //   `declaration(("WebkitTextSizeAdjust", "100%")),
     ],
   )
 );

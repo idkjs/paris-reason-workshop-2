@@ -1,9 +1,9 @@
 open Belt;
-
+type method = [ | `GET | `POST | `PATCH | `DELETE];
 module Xhr = {
   type xhr;
   [@bs.new] external make: unit => xhr = "XMLHttpRequest";
-  [@bs.send.pipe: xhr] external open_: (string, string, bool) => unit = "open";
+  [@bs.send.pipe: xhr] external open_: (method, string, bool) => unit = "open";
   [@bs.send.pipe: xhr] external send: Js.Null.t(string) => unit = "send";
   [@bs.send.pipe: xhr]
   external setRequestHeader: (string, string) => unit = "setRequestHeader";
@@ -14,9 +14,6 @@ module Xhr = {
   [@bs.get] external status: xhr => int = "status";
   [@bs.get] external response: xhr => 'a = "response";
 };
-
-[@bs.deriving jsConverter]
-type method = [ | `GET | `POST | `PATCH | `DELETE];
 
 let make =
     (
@@ -30,7 +27,7 @@ let make =
   let xhr = Xhr.make();
   let future =
     Future.make(resolve => {
-      let method = methodToJs(method);
+      let method = method;
       Xhr.open_(method, url, true, xhr);
       Xhr.setResponseType(xhr, responseType);
       Xhr.onChange(xhr, () =>
@@ -45,7 +42,7 @@ let make =
           | _ as status when status >= 200 && status < 300 =>
             if ([%bs.raw {|typeof xhr.response === "string"|}]) {
               /* IE 11 hack */
-              try (
+              try(
                 resolve(
                   Result.Ok(
                     Obj.magic(Js.Json.parseExn(Xhr.response(xhr))),

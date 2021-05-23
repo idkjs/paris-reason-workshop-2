@@ -7,27 +7,28 @@
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack -w",
+    "webpack": "webpack watch",
+    "refmt": "find ./src -iname '*.re' | xargs bsrefmt --in-place && find ./src -iname '*.rei' | xargs bsrefmt -i true --in-place ",
     "webpack:production": "NODE_ENV=production webpack",
-    "server": "webpack-dev-server"
+    "server": "webpack serve"
   },
-  "keywords": [
-    "BuckleScript"
-  ],
+  "keywords": [ "Reason" ],
   "author": "bloodyowl <mlbli@me.com>",
   "license": "MIT",
   "dependencies": {
-    "bs-css": "^8.0.3",
-    "bs-webapi": "^0.13.6",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "reason-react": "git://github.com/reasonml/reason-react.git#master"
+    "bs-css": "^14.0.2",
+    "bs-css-emotion": "^3.0.0",
+    "bs-webapi": "^0.19.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "reason-future": "^2.6.0",
+    "reason-react": "0.9.1"
   },
   "devDependencies": {
-    "bs-platform": "^5.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "webpack": "^4.0.1",
-    "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.1.8"
+    "bs-platform": "^9.0.2",
+    "html-webpack-plugin": "^5.3.1",
+    "webpack": "^5.37.1",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
   }
 }

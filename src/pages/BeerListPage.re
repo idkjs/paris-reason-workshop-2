@@ -1,5 +1,3 @@
-[@bs.config {jsx: 3}];
-
 module Styles = {
   open Css;
   let item =
@@ -7,7 +5,7 @@ module Styles = {
       padding(10->px),
       borderBottomWidth(1->px),
       borderBottomStyle(solid),
-      borderBottomColor(rgba(0, 0, 0, 0.1)),
+      borderBottomColor(rgba(0, 0, 0, `num(0.1))),
       display(flexBox),
       flexDirection(row),
       alignItems(center),
