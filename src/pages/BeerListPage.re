@@ -32,9 +32,9 @@ let make =
 
   <div>
     {switch (beerList) {
-     | NotAsked => ReasonReact.null
-     | Loading => ReasonReact.string("Loading")
-     | Done(Error(_)) => ReasonReact.string("Request failed")
+     | NotAsked => React.null
+     | Loading => React.string("Loading")
+     | Done(Error(_)) => React.string("Request failed")
      | Done(Ok(beers)) =>
        beers
        ->Belt.Array.map(beer =>
@@ -47,10 +47,10 @@ let make =
              className=Styles.item
              key={beer.id->string_of_int}>
              <img src={beer.image_url} width="32" alt="" />
-             <div className=Styles.text> beer.name->ReasonReact.string </div>
+             <div className=Styles.text> beer.name->React.string </div>
            </a>
          )
-       ->ReasonReact.array
+       ->React.array
      }}
   </div>;
 };

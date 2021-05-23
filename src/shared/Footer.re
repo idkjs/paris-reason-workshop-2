@@ -13,7 +13,7 @@ module Styles = {
 let make = _ => {
   <header className=Styles.container>
     <div className=Styles.text>
-      {j|© 2019 - ParisReason|j}->ReasonReact.string
+      {j|© 2019 - ParisReason|j}->React.string
     </div>
   </header>;
 };

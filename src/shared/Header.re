@@ -19,7 +19,7 @@ let make = _ => {
         ReasonReact.Router.push("/");
       }}>
       <div role="heading" ariaLevel=1 className=Styles.text>
-        "ParisReason Workshop 2"->ReasonReact.string
+        "ParisReason Workshop 2"->React.string
       </div>
     </a>
   </header>;

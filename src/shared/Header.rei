@@ -1,2 +1,2 @@
 [@react.component]
-let make: array(ReasonReact.reactElement) => React.element;
+let make: array(React.element) => React.element;
