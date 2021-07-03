@@ -9,4 +9,4 @@ let make:
     ~responseType: string=?,
     unit
   ) =>
-  Future.t(Belt.Result.t('b, ReactTemplate.Errors.t));
+  Future.t(Belt.Result.t('b, Errors.t));
